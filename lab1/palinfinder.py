@@ -1,19 +1,21 @@
 def palindrome_checker(s):
-    i = 0
-    j = len(s) - 1
-    is_palindrome = True
+    s = ''.join(c.lower() for c in s if c.isalnum() or c in ['?', '#'])
+    i, j = 0, len(s) - 1
+    if len(s) < 2:
+        return False
     while i < j:
-        if s[i] != s[j]:
-            is_palindrome = False
-            break
-        else:
+        l, r = s[i], s[j]
+        if l == r or l in ['?', '#'] or r in ['?', '#']:
             i += 1
             j -= 1
-
-    if is_palindrome:
-        print("String is a palindrome")
-    else:
-        print("String is not a palindrome")
+        else:
+            return False
+    return True
 
 
-palindrome_checker("malayalam")
+
+for t in ["malayalam", "abc?dc#a", "renal"]:
+    print(t, "->", "Palindrome" if palindrome_checker(t) else "Not palindrome")
+
+
+
