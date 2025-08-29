@@ -1,18 +1,12 @@
 .global _start
 
-// r0 = input, r1 = len, r3 = i, r4 = j, r5/r6 = chars
-// r7/r8 = JTAG/LED base (unused/used)
 
 _start:
     ldr r0, =input
-    ldr r7, =0xFF20100      // leave as-is if you like; not relevant to AAPCS
-    ldr r8, =0xFF20000
-    ldr r9, =not_palin
-    ldr r10, =is_palin
 	mov r1, #0
-    bl  check_length        // r1 = len
-    mov r3, #0              // i = 0           <-- moved out of check_length
-    sub r4, r1, #1          // j = len-1       <-- moved out of check_length
+    bl  check_length        // r1 = length of string
+    mov r3, #0              // i = 0
+    sub r4, r1, #1          // j = len-1
 
     bl  check_palindrome
     b   _exit
@@ -25,38 +19,38 @@ check_length:
     b    check_length
 	
 end_cnt_length:
-    bx   lr                  // <-- no writes to r3/r4 here
+    bx   lr 
 
 check_palindrome:
     push {r4}                // preserve callee-saved r4
 
-    // sjekk om i >= j
+    // checking if i is greater or equal to j
     cmp r3, r4
-    bge pal_ok               // was: bge is_palindrome
+    bge is_palindrome      
 
-    // laster inn venstre og høyre karakter
+    // loading characters input[i] and input[j]
     ldrb r5, [r0, r3]
     ldrb r6, [r0, r4]
 
-    // sjekk om det er en ?
+    // checking if one of them is a ?
     cmp r5, #63
     beq wild_left
     cmp r6, #63
     beq wild_right
 
-    // sjekk om det er en #
+    // checking if one of them is a #
     cmp r5, #35
     beq wild_left
     cmp r6, #35
     beq wild_right
 
-    // sjekk om det er et mellomrom
+    // checking if one of them is a space
     cmp r5, #32
     beq inc
     cmp r6, #32
     beq dec
 
-    // store/små bokstav-check
+    // converting the cases
     cmp r5, #'A'
     blt convert_case_r6
     cmp r5, #'Z'
@@ -73,7 +67,7 @@ convert_case_r6:
 
 comp:
     cmp r5, r6
-    bne pal_fail            // was: bne not_palindrome
+    bne not_palindrome
     b   advance
 
 advance:
@@ -91,37 +85,41 @@ dec:
 
 wild_left:
     cmp r6, #32
-    beq pal_fail            // was: beq not_palindrome
+    beq not_palindrome            // was: beq not_palindrome
     add r3, r3, #1
 	sub r4, r4, #1
     b   check_palindrome
 
 wild_right:
     cmp r5, #32
-    beq pal_fail            // was: beq not_palindrome
+    beq not_palindrome            // was: beq not_palindrome
 	add r3, r3, #1
     sub r4, r4, #1
     b   check_palindrome
 
-pal_ok:
-    pop {r4}                // restore callee-saved before leaving
-    b   is_palindrome
-
-pal_fail:
-    pop {r4}
-    b   not_palindrome
-
 is_palindrome:
+    pop {r4}  
     ldr r1, =0xFF200000
 	mov r0, #0x1F
 	str r0, [r1]
-    b _exit
+	ldr r0, =is_palin
+    b write_jtag
 
 not_palindrome:
+    pop {r4} 
     ldr r1, =0xFF200000
 	mov r0, #0x3E0
 	str r0, [r1]
-    b _exit
+	ldr r0, =not_palin
+    b write_jtag
+	
+write_jtag:
+	ldr r1, =0xFF201000
+	ldrb r2, [r0], #1
+	cmp r2, #0
+	beq _exit
+	str r2, [r1]
+	b write_jtag
 
 _exit:
     b .
