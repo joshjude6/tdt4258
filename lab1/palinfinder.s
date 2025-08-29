@@ -2,14 +2,13 @@
 _start:
     ldr r0, =input
 	mov r1, #0
-    bl  check_length        // r1 = length of string
+    bl  check_length        // r1 = length of string, bl since we want to return to _start
 
     // initializing indexes here
     mov r3, #0              // i = 0
     sub r4, r1, #1          // j = len-1
 
-    bl check_palindrome
-    b _exit
+    b check_palindrome
 	
 check_length:
     ldrb r2, [r0, r1] // loading byte at r0+r1 into r2
