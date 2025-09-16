@@ -108,8 +108,11 @@ asm("ReadUart:\n\t"
     "BX LR");
 
 // TODO: Add the WriteUart assembly procedure here that respects the WriteUart C declaration on line 46
-asm("WriteUart:\n\t"
-     )
+asm("WriteUart:           \n\t"
+    "    LDR R1, =0xFF201000 \n\t"
+    "    STR R0, [R1]        \n\t"
+    "    BX LR               \n\t");
+
 // TODO: Implement the C functions below
 // Don't modify any function header
 void draw_block(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned int color)
