@@ -64,11 +64,33 @@ void WriteUart(char c);
 // It must only clear the VGA screen, and not clear any game state
 asm("ClearScreen: \n\t"
     "    PUSH {LR} \n\t"
-    "    PUSH {R4, R5} \n\t"
+    "    PUSH {R4-R7} \n\t"
+    "    LDR R4, =VGAaddress\n\t"
+    "    LDR R4, [R4]\n\t" // dereferencing
+    "    LDR R5, =black\n\t"
+    "    LDR R5, [R5]\n\t"
+    "    MOV R7, #0\n\t" // y-coord
+    "   y_loop: \n\t"
+        "    CMP R7, #240\n\t"
+        "    BGE done_loop\n\t"
+        "    MOV R6, #0\n\t" // x-coord
+    "   x_loop: \n\t"
+        "   CMP R6, #320\n\t"
+        "   BGE next_row\n\t"
+        "   MOV R0, R6\n\t"
+        "   MOV R1, R7\n\t"
+        "   MOV R2, R5\n\t"
+        "   BL SetPixel\n\t"
+        "   ADD R6, R6, #1\n\t"
+        "   B x_loop\n\t"
+    "   next_row: \n\t"
+        "   ADD R7, R7, #1\n\t"
+        "   B y_loop\n\t"
     // TODO: Add ClearScreen implementation in assembly here
-    "    POP {R4,R5}\n\t"
-    "    POP {LR} \n\t"
-    "    BX LR");
+    "   done_loop: \n\t"
+        "    POP {R4-R7}\n\t"
+        "    POP {LR} \n\t"
+        "    BX LR");
 
 // assumes R0 = x-coord, R1 = y-coord, R2 = colorvalue
 asm("SetPixel: \n\t"
@@ -86,11 +108,17 @@ asm("ReadUart:\n\t"
     "BX LR");
 
 // TODO: Add the WriteUart assembly procedure here that respects the WriteUart C declaration on line 46
-
+asm("WriteUart:\n\t"
+     )
 // TODO: Implement the C functions below
 // Don't modify any function header
 void draw_block(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned int color)
 {
+    for(unsigned int row = 0; row < height; row++){
+        for(unsigned int col = 0; col < width; col++){
+            SetPixel(x+col, y+row, color);
+        }
+    }
 }
 
 void draw_bar(unsigned int y)
