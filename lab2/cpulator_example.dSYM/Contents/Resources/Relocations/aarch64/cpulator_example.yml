@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/joshjude/Documents/Git/tdt4258/lab2/cpulator_example'
+relocations:     []
+...
