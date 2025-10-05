@@ -110,7 +110,6 @@ asm("ClearScreen: \n\t"
     "   next_row: \n\t"
         "   ADD R7, R7, #1\n\t"
         "   B y_loop\n\t"
-    // TODO: Add ClearScreen implementation in assembly here
     "   done_loop: \n\t"
         "    POP {R4-R7}\n\t"
         "    POP {LR} \n\t"
@@ -144,32 +143,29 @@ Bar bar = {98, 98, 45, 7, 0x000000FF, 0x0000F81F}; // initializing bar
 
 // TODO: Implement the C functions below
 // Don't modify any function header
+
 void draw_block(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned int color)
 {
     for(unsigned int row = 0; row < height; row++){
         for(unsigned int col = 0; col < width; col++){
             unsigned int px = x + col;
             unsigned int py = y + row;
-            // Only draw if within screen bounds
-            if(px < 320 && py < 240){
+            if(px < 320 && py < 240){ // ensures that nothing is drawn out of bounds, limit to screen size
                 SetPixel(px, py, color);
             }
         }
     }
 }
 
-void delay(int time) {
-    for (volatile int i = 0; i < time; i++) { }
-}
-
-
+// drawing the bar
 void draw_bar(unsigned int y)
 {
     draw_block(0, y, bar.width, 15, bar.t_b_color);
-    draw_block(0, y+15, bar.width, 15, bar.mid_color);
+    draw_block(0, y+15, bar.width, 15, bar.mid_color); // different color in the middle
     draw_block(0, y+30, bar.width, 15, bar.t_b_color);
 }
 
+// drawing a white bar in the old position, "clearing" it
 void clear_bar()
 {
     draw_block(0, bar.old_y, bar.width, 15, 0x0000FFFF);
@@ -194,7 +190,7 @@ void draw_ball()
 void clear_ball() 
 {
     for (int dy = -3; dy <= 3; dy++) {
-        int row_width = 7 - 2 * (dy < 0 ? -dy : dy); // diamond row width
+        int row_width = 7 - 2 * (dy < 0 ? -dy : dy);
         int start_x = ball.old_x - row_width / 2;
         int y = ball.old_y + dy;
 
@@ -206,15 +202,16 @@ void clear_ball()
 
 void clear_block(unsigned int row, unsigned int col)
 {
-    draw_block(field[row][col].pos_x, field[row][col].pos_y, TILE_SIZE, TILE_SIZE, 0x0000FFFF);
-    field[row][col].destroyed = 1;
+    draw_block(field[row][col].pos_x, field[row][col].pos_y, TILE_SIZE, TILE_SIZE, 0x0000FFFF); // a white block in its place
+    field[row][col].destroyed = 1; // marked as destroyed
 }
 
+// this function initializes the playing field by giving each block a unique color and marking every block as not destroyed
 void init_playing_field() {
     unsigned int left_edge = width - (NCOLS * TILE_SIZE);
     for (int row = 0; row < NROWS; row++) {
         for (int col = 0; col < NCOLS; col++) {
-            field[row][col].pos_x = left_edge + col * TILE_SIZE;
+            field[row][col].pos_x = left_edge + col * TILE_SIZE; 
             field[row][col].pos_y = row * TILE_SIZE;
             field[row][col].destroyed = 0;
             switch ((row + col) % 3) {
@@ -226,8 +223,8 @@ void init_playing_field() {
     }
 }
 
-
-
+// iterates over the field array and draws the actual blocks on the playing field
+// skipping blocks that are destroyed
 void draw_playing_field()
 {
     for(int i = 0; i < NROWS; i++){
@@ -241,6 +238,7 @@ void draw_playing_field()
     }
 }
 
+// checks if any of the ball's corners overlap with the border of a block, if so, delete the block
 void corner_checks()
 {
     // coordinates of the ball's corners
@@ -261,15 +259,42 @@ void corner_checks()
                 if(cx >= field[i][j].pos_x && cx < field[i][j].pos_x + TILE_SIZE && cy >= field[i][j].pos_y && cy < field[i][j].pos_y + TILE_SIZE){
                     field[i][j].destroyed = 1;
                     clear_block(i, j); // drawing a white block in its place
+
+                    // the next four if-sentences check if the ball hit a seam between blocks,
+                    // and destroy both blocks in that case
+                    int local_x = cx - (int)field[i][j].pos_x;
+                    int local_y = cy - (int)field[i][j].pos_y;
+
+                    if (local_x == 0 && j > 0 && !field[i][j-1].destroyed){
+                        clear_block(i, j-1);
+                    }
+                                            
+                    if (local_x == TILE_SIZE - 1 && j+1 < NCOLS && !field[i][j+1].destroyed){
+                        clear_block(i, j+1);                   
+                    }
+                        
+                    if (local_y == 0 && i > 0 && !field[i-1][j].destroyed){
+                        clear_block(i-1, j);
+                    }
+                        
+                    if (local_y == TILE_SIZE - 1 && i+1 < NROWS && !field[i+1][j].destroyed){
+                        clear_block(i+1, j); 
+                    }
+                        
                     switch(c)
                     {
                         // 0 and 2 are the top and bottom corners
                         case 0:
+                            ball.dy =-ball.dy;
+                            break;
                         case 2: 
                             ball.dy = -ball.dy; 
                             break;
+
                         // 1 and 3 are the right and left corners
                         case 1:
+                            ball.dx = -ball.dx;
+                            break;
                         case 3: 
                             ball.dx = -ball.dx; 
                             break;
@@ -345,14 +370,21 @@ void update_game_state()
     ball.y += ball.dy;
 
     // check if any corner has hit the wall, if so delete the block
-    corner_checks();
+    if(ball.x >= 160){
+        corner_checks();
+    }
+    
+    // checking if any collisions with the wall have happened
+    if(ball.y <= 4 || ball.y >= 230){
+        // check if any corner hit the top or bottom border
+        handle_wall_collisions();
+    }
 
-    // check if any corner hit the top or bottom border
-    handle_wall_collisions();
-
-    // checking if any collisions with the bar have happened
-    handle_bar_collisions();
-
+    // checking if the ball has collided with the bar
+    if(ball.x <= 20){
+        handle_bar_collisions();
+    }
+    
     // draw the ball in the new position
     draw_ball();
     
@@ -380,6 +412,13 @@ void update_bar_state()
         }
         char c = readin & 0xFF;
         // moving bar depending on char c
+
+        // terminate game if enter is pressed
+        if (c == '\r' || c == '\n') {
+            currentState = Exit;
+            return;
+        }
+
         if(c == 'w'){
             if(bar.y > 0){
                 clear_bar();
@@ -395,7 +434,9 @@ void update_bar_state()
             }
         }
         remaining = (readin & 0x00FF0000) >> 16;
-        if (remaining == 0) return;                   // done for this frame
+        if (remaining == 0){
+            return; // no more bytes pending, return
+        }                 
     }
 }
 
@@ -405,11 +446,12 @@ void def_values()
     ball.y = height/2;
     ball.dx = 1;
     ball.dy = 0;
-    ball.color = black;
+    ball.color = pink;
     bar.y = (height - bar.height)/2;
 
-    // initialize field
+    // initializing the field
     init_playing_field();
+    draw_playing_field();
     draw_ball();
     draw_bar(bar.y);
     currentState = Stopped;
