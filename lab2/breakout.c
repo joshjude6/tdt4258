@@ -87,31 +87,29 @@ void write(char *str);
  */
 // It must only clear the VGA screen, and not clear any game state
 asm("ClearScreen: \n\t"
-    "    PUSH {LR} \n\t"
-    "    PUSH {R4-R7} \n\t"
-    "    LDR R4, =VGAaddress\n\t"
-    "    LDR R4, [R4]\n\t" // dereferencing
-    "    LDR R5, =white\n\t"
-    "    LDR R5, [R5]\n\t"
-    "    MOV R7, #0\n\t" // y-coord
+    "    PUSH {LR} \n\t" // saving return address on stack
+    "    PUSH {R4-R6} \n\t"
+    "    LDR R4, =white\n\t"
+    "    LDR R4, [R4]\n\t" // loading color
+    "    MOV R6, #0\n\t" // y-coord
     "   y_loop: \n\t"
-        "    CMP R7, #240\n\t"
-        "    BGE done_loop\n\t"
-        "    MOV R6, #0\n\t" // x-coord
+        "    CMP R6, #240\n\t"
+        "    BGE done_loop\n\t" // if y > 240, finish the function
+        "    MOV R5, #0\n\t" // x-coord
     "   x_loop: \n\t"
-        "   CMP R6, #320\n\t"
-        "   BGE next_row\n\t"
-        "   MOV R0, R6\n\t"
-        "   MOV R1, R7\n\t"
-        "   MOV R2, R5\n\t"
+        "   CMP R5, #320\n\t"
+        "   BGE next_row\n\t" // go to the next row if this one is done (x > 320)
+        "   MOV R0, R5\n\t" // x-coord as needed by SetPixel
+        "   MOV R1, R6\n\t" // y-coord as needed by SetPixel
+        "   MOV R2, R4\n\t" // color as needed by SetPixel
         "   BL SetPixel\n\t"
-        "   ADD R6, R6, #1\n\t"
+        "   ADD R5, R5, #1\n\t" // next column on the same row
         "   B x_loop\n\t"
     "   next_row: \n\t"
-        "   ADD R7, R7, #1\n\t"
+        "   ADD R6, R6, #1\n\t" // goes to the next row before iterating over it
         "   B y_loop\n\t"
-    "   done_loop: \n\t"
-        "    POP {R4-R7}\n\t"
+    "   done_loop: \n\t" // restores registers used
+        "    POP {R4-R6}\n\t"
         "    POP {LR} \n\t"
         "    BX LR");
 
