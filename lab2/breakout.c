@@ -502,8 +502,8 @@ void reset()
     int remaining = 0;
     do {
         unsigned int out = ReadUart();
-        if (!(out & 0x8000)) break;                     // stop draining, but continue reset
-        remaining = (out & 0x00FF0000) >> 16;           // correct field + mask
+        if (!(out & 0x8000)) break;                     
+        remaining = (out & 0x00FF0000) >> 16;           
     } while (remaining > 0);
 
     // resetting ball, bar and playing field
