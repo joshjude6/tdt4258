@@ -64,9 +64,9 @@ gameConfig game = {
 // needed variables
 const char* fbPath = "/dev/fb0";
 const char* joystickPath = "/dev/input/event4";
-uint16_t *fbp = NULL;  // Framebuffer pointer for writing pixels
-int fbDescriptor = -1;      // File descriptor for framebuffer
-int joystickDescriptor = -1; // File descriptor for joystick
+uint16_t *fbp = NULL;  // framebuffer pointer for writing directly to screen
+int fbDescriptor = -1;      // file descriptor for framebuffer
+int joystickDescriptor = -1; // file descriptor for joystick
 
 // forward declaration
 static inline bool tileOccupied(coord const target);
