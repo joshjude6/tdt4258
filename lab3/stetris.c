@@ -8,6 +8,9 @@
 #include <string.h>
 #include <time.h>
 #include <poll.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <stdint.h>
 
 // The game state can be used to detect what happens on the playfield
 #define GAMEOVER 0
@@ -58,11 +61,45 @@ gameConfig game = {
     .initNextGameTick = 50,
 };
 
+// needed variables
+const char* fbPath = "/dev/fb0";
+const char* joystickPath = "/dev/input/event4";
+uint16_t *fbp = NULL;  // Framebuffer pointer for writing pixels
+int fbDescriptor = -1;      // File descriptor for framebuffer
+int joystickDescriptor = -1; // File descriptor for joystick
+
+// forward declaration
+static inline bool tileOccupied(coord const target);
+
 // This function is called on the start of your application
 // Here you can initialize what ever you need for your task
 // return false if something fails, else true
+
 bool initializeSenseHat()
 {
+    // open the framebuffer device
+    fbDescriptor = open(fbPath, O_RDWR); // open for read and write
+    if (fbDescriptor < 0) { // throw error if cannot open
+        perror("Error opening framebuffer device");
+        return false;
+    }
+
+    // mapping the framebuffer to memory
+    // since we have an 8x8 pixel matrix and 2 bytes per pixel, we need to map 128 bytes
+    fbp = (uint16_t *)mmap(NULL, 128, PROT_READ | PROT_WRITE, MAP_SHARED, fbDescriptor, 0);
+    if (fbp == MAP_FAILED) {
+        perror("Error mapping framebuffer to memory");
+        close(fbDescriptor);
+        return false;
+    }
+
+    // open the joystick device
+    joystickDescriptor = open(joystickPath, O_RDONLY | O_NONBLOCK); // open for read only, non blocking (no input = no wait)
+    if (joystickDescriptor < 0) {
+        perror("Error opening joystick device");
+        return false;
+    }
+
     return true;
 }
 
@@ -70,6 +107,14 @@ bool initializeSenseHat()
 // Here you can free up everything that you might have opened/allocated
 void freeSenseHat()
 {
+    // unmap the framebuffer from memory
+    if (fbp != NULL && fbp != MAP_FAILED) {
+        munmap(fbp, 128);
+    }
+
+    // closing connections to framebuffer and joystick
+    close(fbDescriptor);
+    close(joystickDescriptor);
 }
 
 // This function should return the key that corresponds to the joystick press
@@ -78,6 +123,20 @@ void freeSenseHat()
 // !!! when nothing was pressed you MUST return 0 !!!
 int readSenseHatJoystick()
 {
+    struct input_event ev;
+    ssize_t n;
+    
+    
+    n = read(joystickDescriptor, &ev, sizeof(ev)); // trying to read events from the joystick
+
+    // n == sizeof(ev) means we have read a full event
+    // ev.type == EV_KEY means its a key event
+    // ev.value == 1 means the key was pressed
+    
+    if (n == sizeof(ev) && ev.type == EV_KEY && ev.value == 1) {
+        return ev.code; // linux key code
+    }
+
     return 0;
 }
 
@@ -86,7 +145,37 @@ int readSenseHatJoystick()
 // has changed the playfield
 void renderSenseHatMatrix(bool const playfieldChanged)
 {
-    (void)playfieldChanged;
+    // if nothing has changed, don't update the matrix
+    if(!playfieldChanged || !fbp) {
+        return;
+    }
+    
+    const uint16_t COLOR_BLACK = 0x0000;
+    const uint16_t COLOR_RED = 0xF800;
+    const uint16_t COLOR_GREEN = 0x07E0;
+    const uint16_t COLOR_BLUE = 0x001F;
+    const uint16_t COLOR_YELLOW = 0xFFE0;
+    const uint16_t COLOR_CYAN = 0x07FF;
+    const uint16_t COLOR_MAGENTA = 0xF81F;
+    const uint16_t COLOR_WHITE = 0xFFFF;
+    const uint16_t colors[] = {COLOR_RED, COLOR_GREEN, COLOR_BLUE, COLOR_YELLOW, COLOR_CYAN, COLOR_MAGENTA, COLOR_WHITE};
+
+    for(int y = 0; y < game.grid.y; y++) {
+        for(int x = 0; x < game.grid.x; x++) {
+            uint16_t color;
+            
+            // setting colors based on whether tile is occupied
+            if (tileOccupied((coord){x, y})) {
+                color = colors[(x+y) % 7]; // cycling through colors
+            } else {
+                color = COLOR_BLACK;
+            }
+
+            // set the pixel in the framebuffer to the chosen color
+            // we are writing directly to the mapped memory, so changes appear immediately
+            fbp[y*8 + x] = color;
+        }
+    }
 }
 
 // The game logic uses only the following functions to interact with the playfield.
