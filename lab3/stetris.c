@@ -11,6 +11,8 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <stdint.h>
+#include <linux/fb.h>
+#include <sys/ioctl.h>
 
 // The game state can be used to detect what happens on the playfield
 #define GAMEOVER 0
@@ -62,8 +64,6 @@ gameConfig game = {
 };
 
 // needed variables
-const char* fbPath = "/dev/fb0";
-const char* joystickPath = "/dev/input/event4";
 uint16_t *fbp = NULL;  // framebuffer pointer for writing directly to screen
 int fbDescriptor = -1;      // file descriptor for framebuffer
 int joystickDescriptor = -1; // file descriptor for joystick
@@ -71,21 +71,75 @@ int joystickDescriptor = -1; // file descriptor for joystick
 // forward declaration
 static inline bool tileOccupied(coord const target);
 
+// helper function to find the framebuffer device path
+static int findSenseHatFramebuffer() {
+    
+    // loop through all possible framebuffer devices
+    for (int i = 0; i < 10; i++) {
+        char path[32];
+        snprintf(path, sizeof(path), "/dev/fb%d", i);
+        
+        // try to open the framebuffer device
+        int fbPath = open(path, O_RDWR);
+        if (fbPath < 0) {
+            continue;
+        }
+        
+        // get framebuffer fixed screen info
+        struct fb_fix_screeninfo fixInfo;
+        if (ioctl(fbPath, FBIOGET_FSCREENINFO, &fixInfo) >= 0) {
+            // check if this is the sense hat framebuffer
+            if (strcmp(fixInfo.id, "RPi-Sense FB") == 0) {
+                return fbPath;
+            }
+        }
+        close(fbPath);
+    }
+    
+    return -1;
+}
+
+// helper function to find the joystick device path
+static int findSenseHatJoystick() {
+    // loop through all possible input event devices
+    for (int i = 0; i < 32; i++) {
+        char path[32];
+        snprintf(path, sizeof(path), "/dev/input/event%d", i);
+        
+        // try to open the input device in non-blocking mode
+        int joystickPath = open(path, O_RDONLY | O_NONBLOCK);
+        if (joystickPath < 0) {
+            continue;
+        }
+        
+        // get the device name
+        char name[256] = "Unknown";
+        if (ioctl(joystickPath, EVIOCGNAME(sizeof(name)), name) >= 0) {
+            // check if this is the sense hat joystick
+            if (strstr(name, "Raspberry Pi Sense HAT Joystick") != NULL) {
+                return joystickPath;
+            }
+        }
+        close(joystickPath);
+    }
+    
+    return -1;
+}
+
 // This function is called on the start of your application
 // Here you can initialize what ever you need for your task
 // return false if something fails, else true
 
 bool initializeSenseHat()
 {
-    // open the framebuffer device
-    fbDescriptor = open(fbPath, O_RDWR); // open for read and write
-    if (fbDescriptor < 0) { // throw error if cannot open
-        perror("Error opening framebuffer device");
+    // find and open the sense hat framebuffer
+    fbDescriptor = findSenseHatFramebuffer();
+    if (fbDescriptor < 0) {
+        fprintf(stderr, "Error: framebuffer not found\n");
         return false;
     }
 
-    // mapping the framebuffer to memory
-    // since we have an 8x8 pixel matrix and 2 bytes per pixel, we need to map 128 bytes
+    // map framebuffer to memory (8x8 pixels, 2 bytes per pixel = 128 bytes)
     fbp = (uint16_t *)mmap(NULL, 128, PROT_READ | PROT_WRITE, MAP_SHARED, fbDescriptor, 0);
     if (fbp == MAP_FAILED) {
         perror("Error mapping framebuffer to memory");
@@ -93,10 +147,12 @@ bool initializeSenseHat()
         return false;
     }
 
-    // open the joystick device
-    joystickDescriptor = open(joystickPath, O_RDONLY | O_NONBLOCK); // open for read only, non blocking (no input = no wait)
+    // find and open the sense hat joystick
+    joystickDescriptor = findSenseHatJoystick();
     if (joystickDescriptor < 0) {
-        perror("Error opening joystick device");
+        fprintf(stderr, "Error: joystick not found\n");
+        munmap(fbp, 128);
+        close(fbDescriptor);
         return false;
     }
 
@@ -107,14 +163,17 @@ bool initializeSenseHat()
 // Here you can free up everything that you might have opened/allocated
 void freeSenseHat()
 {
-    // unmap the framebuffer from memory
     if (fbp != NULL && fbp != MAP_FAILED) {
         munmap(fbp, 128);
     }
 
-    // closing connections to framebuffer and joystick
-    close(fbDescriptor);
-    close(joystickDescriptor);
+    if (fbDescriptor >= 0) {
+        close(fbDescriptor);
+    }
+    
+    if (joystickDescriptor >= 0) {
+        close(joystickDescriptor);
+    }
 }
 
 // This function should return the key that corresponds to the joystick press
@@ -125,18 +184,16 @@ int readSenseHatJoystick()
 {
     struct input_event ev;
     ssize_t n;
-    
-    
     n = read(joystickDescriptor, &ev, sizeof(ev)); // trying to read events from the joystick
-
+    
     // n == sizeof(ev) means we have read a full event
     // ev.type == EV_KEY means its a key event
     // ev.value == 1 means the key was pressed
-    
+
     if (n == sizeof(ev) && ev.type == EV_KEY && ev.value == 1) {
         return ev.code; // linux key code
     }
-
+    
     return 0;
 }
 
