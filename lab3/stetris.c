@@ -25,6 +25,7 @@
 typedef struct
 {
     bool occupied;
+    uint16_t color;
 } tile;
 
 typedef struct
@@ -68,11 +69,24 @@ uint16_t *fbp = NULL;  // framebuffer pointer for writing directly to screen
 int fbDescriptor = -1;      // file descriptor for framebuffer
 int joystickDescriptor = -1; // file descriptor for joystick
 
+// color palette for tiles
+const uint16_t COLOR_BLACK = 0x0000;
+const uint16_t COLOR_RED = 0xF800;
+const uint16_t COLOR_GREEN = 0x07E0;
+const uint16_t COLOR_BLUE = 0x001F;
+const uint16_t COLOR_YELLOW = 0xFFE0;
+const uint16_t COLOR_CYAN = 0x07FF;
+const uint16_t COLOR_MAGENTA = 0xF81F;
+const uint16_t COLOR_WHITE = 0xFFFF;
+const uint16_t tileColors[] = {COLOR_RED, COLOR_GREEN, COLOR_BLUE, COLOR_YELLOW, COLOR_CYAN, COLOR_MAGENTA, COLOR_WHITE};
+const int numTileColors = 7;
+int currentColorIndex = 0; // track which color to use for next tile
+
 // forward declaration
 static inline bool tileOccupied(coord const target);
 
 // helper function to find the framebuffer device path
-static int findSenseHatFramebuffer() {
+static int findFramebuffer() {
     
     // loop through all possible framebuffer devices
     for (int i = 0; i < 10; i++) {
@@ -100,7 +114,7 @@ static int findSenseHatFramebuffer() {
 }
 
 // helper function to find the joystick device path
-static int findSenseHatJoystick() {
+static int findJoystick() {
     // loop through all possible input event devices
     for (int i = 0; i < 32; i++) {
         char path[32];
@@ -133,7 +147,7 @@ static int findSenseHatJoystick() {
 bool initializeSenseHat()
 {
     // find and open the sense hat framebuffer
-    fbDescriptor = findSenseHatFramebuffer();
+    fbDescriptor = findFramebuffer();
     if (fbDescriptor < 0) {
         fprintf(stderr, "Error: framebuffer not found\n");
         return false;
@@ -148,7 +162,7 @@ bool initializeSenseHat()
     }
 
     // find and open the sense hat joystick
-    joystickDescriptor = findSenseHatJoystick();
+    joystickDescriptor = findJoystick();
     if (joystickDescriptor < 0) {
         fprintf(stderr, "Error: joystick not found\n");
         munmap(fbp, 128);
@@ -206,30 +220,20 @@ void renderSenseHatMatrix(bool const playfieldChanged)
     if(!playfieldChanged || !fbp) {
         return;
     }
-    
-    const uint16_t COLOR_BLACK = 0x0000;
-    const uint16_t COLOR_RED = 0xF800;
-    const uint16_t COLOR_GREEN = 0x07E0;
-    const uint16_t COLOR_BLUE = 0x001F;
-    const uint16_t COLOR_YELLOW = 0xFFE0;
-    const uint16_t COLOR_CYAN = 0x07FF;
-    const uint16_t COLOR_MAGENTA = 0xF81F;
-    const uint16_t COLOR_WHITE = 0xFFFF;
-    const uint16_t colors[] = {COLOR_RED, COLOR_GREEN, COLOR_BLUE, COLOR_YELLOW, COLOR_CYAN, COLOR_MAGENTA, COLOR_WHITE};
 
+    // render each tile with its assigned color
     for(int y = 0; y < game.grid.y; y++) {
         for(int x = 0; x < game.grid.x; x++) {
             uint16_t color;
             
-            // setting colors based on whether tile is occupied
+            // use the color stored in the tile, or black if empty
             if (tileOccupied((coord){x, y})) {
-                color = colors[(x+y) % 7]; // cycling through colors
+                color = game.playfield[y][x].color;
             } else {
                 color = COLOR_BLACK;
             }
 
-            // set the pixel in the framebuffer to the chosen color
-            // we are writing directly to the mapped memory, so changes appear immediately
+            // set the pixel in the framebuffer
             fbp[y*8 + x] = color;
         }
     }
@@ -242,6 +246,9 @@ void renderSenseHatMatrix(bool const playfieldChanged)
 static inline void newTile(coord const target)
 {
     game.playfield[target.y][target.x].occupied = true;
+    // assign a color to the new tile and cycle through colors
+    game.playfield[target.y][target.x].color = tileColors[currentColorIndex];
+    currentColorIndex = (currentColorIndex + 1) % numTileColors;
 }
 
 static inline void copyTile(coord const to, coord const from)
