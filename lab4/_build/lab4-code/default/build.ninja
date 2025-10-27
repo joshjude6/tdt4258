@@ -89,7 +89,7 @@ build cmake_object_order_depends_target_lab4_code_default_image_RC9vr_y9: phony 
 build /Users/joshjude/Documents/Git/tdt4258/lab4/out/lab4-code/default.elf: C_EXECUTABLE_LINKER__lab4_code_default_image_RC9vr_y9_ CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/usart.c.o || lab4_code_default_default_XC8_compile
   LINK_FLAGS = -Wl,-Map=mem.map -mcpu=AVR128DB48 -Wl,--defsym=__MPLAB_BUILD=1 -mdfp=/Users/joshjude/.mchp_packs/Microchip/AVR-Dx_DFP/2.7.321/xc8 -gdwarf-2 -Wl,--gc-sections -O1 -ffunction-sections -fdata-sections -fshort-enums -funsigned-char -funsigned-bitfields -Wall -gdwarf-3 -mno-const-data-in-progmem -Wl,--memorysummary,memoryfile.xml -Wl,--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1
   OBJECT_DIR = CMakeFiles/lab4_code_default_image_RC9vr_y9.dir
-  POST_BUILD = :
+  POST_BUILD = cd /Users/joshjude/Documents/Git/tdt4258/lab4 && avr-objcopy -O ihex "/Users/joshjude/Documents/Git/tdt4258/lab4/out/lab4-code/default.elf" "out/lab4-code"/"default".hex
   PRE_LINK = :
   TARGET_COMPILE_PDB = CMakeFiles/lab4_code_default_image_RC9vr_y9.dir/
   TARGET_FILE = /Users/joshjude/Documents/Git/tdt4258/lab4/out/lab4-code/default.elf

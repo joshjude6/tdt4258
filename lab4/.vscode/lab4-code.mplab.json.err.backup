@@ -15,7 +15,7 @@
             ],
             "postBuildSteps": [
                 "avr-objcopy -O ihex %{TargetPath} %{TargetDirRelative}/%{TargetName}.hex"
-            ],
+            ]
             "fileSet": "default",
             "toolchain": "default-XC8"
         }

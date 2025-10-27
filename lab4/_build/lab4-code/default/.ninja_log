@@ -1,4 +1,8 @@
 # ninja log v7
-1	167	1761552798833690415	CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o	498b8b50ccee7db1
-167	191	1761552798999729846	/Users/joshjude/Documents/Git/tdt4258/lab4/out/lab4-code/default.elf	de7e4ecc03af8804
-2	15	1761552798810086806	clean	27cd01ca03b1e936
+2	299	1761553810287207856	CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o	498b8b50ccee7db1
+303	329	1761553810588724194	/Users/joshjude/Documents/Git/tdt4258/lab4/out/lab4-code/default.elf	1404216dda478dd9
+2	7	1761553124519066049	clean	27cd01ca03b1e936
+3	303	1761553810287959355	CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/usart.c.o	d5e168635e41376c
+2	307	1761553878115086126	CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o	498b8b50ccee7db1
+2	311	1761553878115333584	CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/usart.c.o	d5e168635e41376c
+2	218	1761553996908218107	/Users/joshjude/Documents/Git/tdt4258/lab4/out/lab4-code/default.elf	b34950a60043629c

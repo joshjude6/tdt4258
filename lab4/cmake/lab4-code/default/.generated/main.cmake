@@ -39,3 +39,7 @@ lab4_code_default_link_rule(lab4_code_default_image_RC9vr_y9)
 
 
 
+# The following step will be performed after each build if final image is rebuilt
+add_custom_command(TARGET lab4_code_default_image_RC9vr_y9 POST_BUILD
+    COMMAND avr-objcopy -O ihex \"/Users/joshjude/Documents/Git/tdt4258/lab4/out/lab4-code/default.elf\" \"out/lab4-code\"/\"default\".hex
+    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../../../..)
