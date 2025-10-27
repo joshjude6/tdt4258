@@ -1,0 +1,6 @@
+{
+    "mplab.clangd.arguments": [
+        "--compile-commands-dir=${workspaceFolder}/_build/lab4-code/default"
+    ],
+    "mplab.clangd.path": "/Applications/microchip/xc8/v3.10/bin/xc8-clangd"
+}

@@ -1,0 +1,4 @@
+/Users/joshjude/Documents/Git/tdt4258/lab4/_build/lab4-code/default/CMakeFiles/lab4_code_default_default_XC8_compile.dir
+/Users/joshjude/Documents/Git/tdt4258/lab4/_build/lab4-code/default/CMakeFiles/lab4_code_default_image_RC9vr_y9.dir
+/Users/joshjude/Documents/Git/tdt4258/lab4/_build/lab4-code/default/CMakeFiles/edit_cache.dir
+/Users/joshjude/Documents/Git/tdt4258/lab4/_build/lab4-code/default/CMakeFiles/rebuild_cache.dir

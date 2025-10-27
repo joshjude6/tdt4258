@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/Users/joshjude/Documents/Git/tdt4258/lab4/_build/lab4-code/default",
+  "command": "/Applications/microchip/xc8/v3.10/bin/xc8-cc -DDEBUG -DXPRJ_default=default -D__AVR128DB48__ -D__DEBUG=1 -c -mcpu=AVR128DB48 -gdwarf-2 -x c -mdfp=/Users/joshjude/.mchp_packs/Microchip/AVR-Dx_DFP/2.7.321/xc8 -Wl,--gc-sections -O1 -ffunction-sections -fdata-sections -fshort-enums -funsigned-char -funsigned-bitfields -Wall -gdwarf-3 -mno-const-data-in-progmem -o CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o -c /Users/joshjude/Documents/Git/tdt4258/lab4/main.c",
+  "file": "/Users/joshjude/Documents/Git/tdt4258/lab4/main.c",
+  "output": "/Users/joshjude/Documents/Git/tdt4258/lab4/_build/lab4-code/default/CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o"
+},
+{
+  "directory": "/Users/joshjude/Documents/Git/tdt4258/lab4/_build/lab4-code/default",
+  "command": "/Applications/microchip/xc8/v3.10/bin/xc8-cc -DDEBUG -DXPRJ_default=default -D__AVR128DB48__ -D__DEBUG=1 -c -mcpu=AVR128DB48 -gdwarf-2 -x c -mdfp=/Users/joshjude/.mchp_packs/Microchip/AVR-Dx_DFP/2.7.321/xc8 -Wl,--gc-sections -O1 -ffunction-sections -fdata-sections -fshort-enums -funsigned-char -funsigned-bitfields -Wall -gdwarf-3 -mno-const-data-in-progmem -o CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/usart.c.o -c /Users/joshjude/Documents/Git/tdt4258/lab4/usart.c",
+  "file": "/Users/joshjude/Documents/Git/tdt4258/lab4/usart.c",
+  "output": "/Users/joshjude/Documents/Git/tdt4258/lab4/_build/lab4-code/default/CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/usart.c.o"
+}
+]

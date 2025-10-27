@@ -1,0 +1,4 @@
+# ninja log v7
+1	167	1761552798833690415	CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o	498b8b50ccee7db1
+167	191	1761552798999729846	/Users/joshjude/Documents/Git/tdt4258/lab4/out/lab4-code/default.elf	de7e4ecc03af8804
+2	15	1761552798810086806	clean	27cd01ca03b1e936
