@@ -17,9 +17,15 @@ Discarded input sections
  .text          0x0000000000000000        0x0 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
  .data          0x0000000000000000        0x0 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
  .bss           0x0000000000000000        0x0 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
+ .text.LED_init
+                0x0000000000000000        0x8 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
  .text          0x0000000000000000        0x0 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
  .data          0x0000000000000000        0x0 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
  .bss           0x0000000000000000        0x0 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
+ .text.busy_waiting
+                0x0000000000000000       0x20 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
+ .text.interrupt_driven
+                0x0000000000000000       0x2a CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
  .text          0x0000000000000000        0x0 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/polling.c.o
  .data          0x0000000000000000        0x0 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/polling.c.o
  .bss           0x0000000000000000        0x0 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/polling.c.o
@@ -406,51 +412,51 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x0000000000000000       0x90
+.debug_aranges  0x0000000000000000       0xb8
  *(.debug_aranges)
  .debug_aranges
                 0x0000000000000000       0x30 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/ac.c.o
  .debug_aranges
                 0x0000000000000030       0x30 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
  .debug_aranges
-                0x0000000000000060       0x30 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
+                0x0000000000000060       0x58 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000     0x4b74
+.debug_info     0x0000000000000000     0x5fcc
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x0000000000000000     0x3545 /Users/joshjude/.mchp_packs/Microchip/AVR-Dx_DFP/2.7.321/xc8/avr/lib/avrxmega4/crtavr128db48.o
  .debug_info    0x0000000000003545      0x7cb CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/ac.c.o
  .debug_info    0x0000000000003d10      0x484 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
- .debug_info    0x0000000000004194      0x9e0 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
+ .debug_info    0x0000000000004194     0x1e38 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
 
-.debug_abbrev   0x0000000000000000     0x3545
+.debug_abbrev   0x0000000000000000     0x35a2
  *(.debug_abbrev)
  .debug_abbrev  0x0000000000000000     0x3274 /Users/joshjude/.mchp_packs/Microchip/AVR-Dx_DFP/2.7.321/xc8/avr/lib/avrxmega4/crtavr128db48.o
  .debug_abbrev  0x0000000000003274      0x105 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/ac.c.o
  .debug_abbrev  0x0000000000003379       0x86 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
- .debug_abbrev  0x00000000000033ff      0x146 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
+ .debug_abbrev  0x00000000000033ff      0x1a3 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
 
-.debug_line     0x0000000000000000      0x622
+.debug_line     0x0000000000000000      0x708
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x0000000000000000      0x205 /Users/joshjude/.mchp_packs/Microchip/AVR-Dx_DFP/2.7.321/xc8/avr/lib/avrxmega4/crtavr128db48.o
- .debug_line    0x0000000000000205      0x171 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/ac.c.o
- .debug_line    0x0000000000000376      0x130 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
- .debug_line    0x00000000000004a6      0x17c CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
+ .debug_line    0x0000000000000205      0x17d CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/ac.c.o
+ .debug_line    0x0000000000000382      0x130 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
+ .debug_line    0x00000000000004b2      0x256 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
 
-.debug_frame    0x0000000000000000      0x120
+.debug_frame    0x0000000000000000      0x1b8
  *(.debug_frame)
  .debug_frame   0x0000000000000000       0x50 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/ac.c.o
  .debug_frame   0x0000000000000050       0x44 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
- .debug_frame   0x0000000000000094       0x8c CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
+ .debug_frame   0x0000000000000094      0x124 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
 
-.debug_str      0x0000000000000000     0x17b4
+.debug_str      0x0000000000000000     0x17bc
  *(.debug_str)
  .debug_str     0x0000000000000000     0x170f /Users/joshjude/.mchp_packs/Microchip/AVR-Dx_DFP/2.7.321/xc8/avr/lib/avrxmega4/crtavr128db48.o
  .debug_str     0x000000000000170f       0x16 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/ac.c.o
  .debug_str     0x0000000000001725        0x0 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
- .debug_str     0x0000000000001725       0x8f CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
+ .debug_str     0x0000000000001725       0x97 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
 
 .debug_loc
  *(.debug_loc)
@@ -473,11 +479,11 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x0000000000000000       0x60
+.debug_ranges   0x0000000000000000       0x88
  *(.debug_ranges)
  .debug_ranges  0x0000000000000000       0x20 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/ac.c.o
  .debug_ranges  0x0000000000000020       0x20 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
- .debug_ranges  0x0000000000000040       0x20 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
+ .debug_ranges  0x0000000000000040       0x48 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
 
 .debug_macro
  *(.debug_macro)
@@ -496,134 +502,146 @@ LOAD data_init
                 0x000000000000010c       0x64 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
                 0x000000000000010c                __vector_9
 
-.text.AC_init   0x0000000000000170       0x42
- .text.AC_init  0x0000000000000170       0x42 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/ac.c.o
-                0x0000000000000170                AC_init
+.text.__vector_25
+                0x0000000000000170       0x64
+ .text.__vector_25
+                0x0000000000000170       0x64 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
+                0x0000000000000170                __vector_25
 
-.text.busy_waiting
-                0x00000000000001b2       0x20
- .text.busy_waiting
-                0x00000000000001b2       0x20 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
-                0x00000000000001b2                busy_waiting
+.text.AC_init   0x00000000000001d4       0x48
+ .text.AC_init  0x00000000000001d4       0x48 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/ac.c.o
+                0x00000000000001d4                AC_init
 
-.text.exit      0x00000000000001d2       0x16
- .text.exit     0x00000000000001d2       0x16 /Applications/microchip/xc8/v3.10/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega4/libc.a(exit.o)
-                0x00000000000001d2                exit
+.text.event_system
+                0x000000000000021c       0x2c
+ .text.event_system
+                0x000000000000021c       0x2c CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
+                0x000000000000021c                event_system
+
+.text.exit      0x0000000000000248       0x16
+ .text.exit     0x0000000000000248       0x16 /Applications/microchip/xc8/v3.10/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega4/libc.a(exit.o)
+                0x0000000000000248                exit
+
+.text.EVSYS_init
+                0x000000000000025e        0xe
+ .text.EVSYS_init
+                0x000000000000025e        0xe CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
+                0x000000000000025e                EVSYS_init
+
+.text.LED_init_event
+                0x000000000000026c        0xe
+ .text.LED_init_event
+                0x000000000000026c        0xe CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
+                0x000000000000026c                LED_init_event
 
 .text.AC_above_threshold
-                0x00000000000001e8        0xa
+                0x000000000000027a        0xa
  .text.AC_above_threshold
-                0x00000000000001e8        0xa CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/ac.c.o
-                0x00000000000001e8                AC_above_threshold
-
-.text.LED_init  0x00000000000001f2        0x8
- .text.LED_init
-                0x00000000000001f2        0x8 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
-                0x00000000000001f2                LED_init
+                0x000000000000027a        0xa CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/ac.c.o
+                0x000000000000027a                AC_above_threshold
 
 .text.set_LED_on
-                0x00000000000001fa        0x8
+                0x0000000000000284        0x8
  .text.set_LED_on
-                0x00000000000001fa        0x8 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
-                0x00000000000001fa                set_LED_on
+                0x0000000000000284        0x8 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
+                0x0000000000000284                set_LED_on
 
 .text.set_LED_off
-                0x0000000000000202        0x8
+                0x000000000000028c        0x8
  .text.set_LED_off
-                0x0000000000000202        0x8 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
-                0x0000000000000202                set_LED_off
+                0x000000000000028c        0x8 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/led.c.o
+                0x000000000000028c                set_LED_off
 
 .text.VREF_init
-                0x000000000000020a        0x6
+                0x0000000000000294        0x6
  .text.VREF_init
-                0x000000000000020a        0x6 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/ac.c.o
-                0x000000000000020a                VREF_init
+                0x0000000000000294        0x6 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/ac.c.o
+                0x0000000000000294                VREF_init
 
-.text           0x0000000000000210        0x4
- .text          0x0000000000000210        0x4 /Users/joshjude/.mchp_packs/Microchip/AVR-Dx_DFP/2.7.321/xc8/avr/lib/avrxmega4/crtavr128db48.o
-                0x0000000000000210                __vector_42
-                0x0000000000000210                __vector_22
-                0x0000000000000210                __vector_28
-                0x0000000000000210                __vector_1
-                0x0000000000000210                __vector_32
-                0x0000000000000210                __vector_34
-                0x0000000000000210                __vector_24
-                0x0000000000000210                __vector_12
-                0x0000000000000210                __vector_55
-                0x0000000000000210                __vector_46
-                0x0000000000000210                __bad_interrupt
-                0x0000000000000210                __vector_6
-                0x0000000000000210                __vector_31
-                0x0000000000000210                __vector_35
-                0x0000000000000210                __vector_39
-                0x0000000000000210                __vector_3
-                0x0000000000000210                __vector_23
-                0x0000000000000210                __vector_30
-                0x0000000000000210                __vector_45
-                0x0000000000000210                __vector_25
-                0x0000000000000210                __vector_11
-                0x0000000000000210                __vector_54
-                0x0000000000000210                __vector_13
-                0x0000000000000210                __vector_17
-                0x0000000000000210                __vector_19
-                0x0000000000000210                __vector_56
-                0x0000000000000210                __vector_7
-                0x0000000000000210                __vector_49
-                0x0000000000000210                __vector_41
-                0x0000000000000210                __vector_43
-                0x0000000000000210                __vector_27
-                0x0000000000000210                __vector_5
-                0x0000000000000210                __vector_33
-                0x0000000000000210                __vector_47
-                0x0000000000000210                __vector_52
-                0x0000000000000210                __vector_37
-                0x0000000000000210                __vector_4
-                0x0000000000000210                __vector_44
-                0x0000000000000210                __vector_51
-                0x0000000000000210                __vector_2
-                0x0000000000000210                __vector_21
-                0x0000000000000210                __vector_15
-                0x0000000000000210                __vector_36
-                0x0000000000000210                __vector_58
-                0x0000000000000210                __vector_29
-                0x0000000000000210                __vector_60
-                0x0000000000000210                __vector_40
-                0x0000000000000210                __vector_8
-                0x0000000000000210                __vector_26
-                0x0000000000000210                __vector_48
-                0x0000000000000210                __vector_14
-                0x0000000000000210                __vector_57
-                0x0000000000000210                __vector_53
-                0x0000000000000210                __vector_10
-                0x0000000000000210                __vector_50
-                0x0000000000000210                __vector_16
-                0x0000000000000210                __vector_59
-                0x0000000000000210                __vector_18
-                0x0000000000000210                __vector_20
-                0x0000000000000210                __vector_38
+.text           0x000000000000029a        0x4
+ .text          0x000000000000029a        0x4 /Users/joshjude/.mchp_packs/Microchip/AVR-Dx_DFP/2.7.321/xc8/avr/lib/avrxmega4/crtavr128db48.o
+                0x000000000000029a                __vector_42
+                0x000000000000029a                __vector_22
+                0x000000000000029a                __vector_28
+                0x000000000000029a                __vector_1
+                0x000000000000029a                __vector_32
+                0x000000000000029a                __vector_34
+                0x000000000000029a                __vector_24
+                0x000000000000029a                __vector_12
+                0x000000000000029a                __vector_55
+                0x000000000000029a                __vector_46
+                0x000000000000029a                __bad_interrupt
+                0x000000000000029a                __vector_6
+                0x000000000000029a                __vector_31
+                0x000000000000029a                __vector_35
+                0x000000000000029a                __vector_39
+                0x000000000000029a                __vector_3
+                0x000000000000029a                __vector_23
+                0x000000000000029a                __vector_30
+                0x000000000000029a                __vector_45
+                0x000000000000029a                __vector_11
+                0x000000000000029a                __vector_54
+                0x000000000000029a                __vector_13
+                0x000000000000029a                __vector_17
+                0x000000000000029a                __vector_19
+                0x000000000000029a                __vector_56
+                0x000000000000029a                __vector_7
+                0x000000000000029a                __vector_49
+                0x000000000000029a                __vector_41
+                0x000000000000029a                __vector_43
+                0x000000000000029a                __vector_27
+                0x000000000000029a                __vector_5
+                0x000000000000029a                __vector_33
+                0x000000000000029a                __vector_47
+                0x000000000000029a                __vector_52
+                0x000000000000029a                __vector_37
+                0x000000000000029a                __vector_4
+                0x000000000000029a                __vector_44
+                0x000000000000029a                __vector_51
+                0x000000000000029a                __vector_2
+                0x000000000000029a                __vector_21
+                0x000000000000029a                __vector_15
+                0x000000000000029a                __vector_36
+                0x000000000000029a                __vector_58
+                0x000000000000029a                __vector_29
+                0x000000000000029a                __vector_60
+                0x000000000000029a                __vector_40
+                0x000000000000029a                __vector_8
+                0x000000000000029a                __vector_26
+                0x000000000000029a                __vector_48
+                0x000000000000029a                __vector_14
+                0x000000000000029a                __vector_57
+                0x000000000000029a                __vector_53
+                0x000000000000029a                __vector_10
+                0x000000000000029a                __vector_50
+                0x000000000000029a                __vector_16
+                0x000000000000029a                __vector_59
+                0x000000000000029a                __vector_18
+                0x000000000000029a                __vector_20
+                0x000000000000029a                __vector_38
 
-.text.main      0x0000000000000214        0x4
- .text.main     0x0000000000000214        0x4 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
-                0x0000000000000214                main
+.text.main      0x000000000000029e        0x4
+ .text.main     0x000000000000029e        0x4 CMakeFiles/lab4_code_default_default_XC8_compile.dir/Users/joshjude/Documents/Git/tdt4258/lab4/main.c.o
+                0x000000000000029e                main
 
-.text._Exit     0x0000000000000218        0x4
- .text._Exit    0x0000000000000218        0x4 /Applications/microchip/xc8/v3.10/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega4/libc.a(_Exit.o)
-                0x0000000000000218                _Exit
+.text._Exit     0x00000000000002a2        0x4
+ .text._Exit    0x00000000000002a2        0x4 /Applications/microchip/xc8/v3.10/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega4/libc.a(_Exit.o)
+                0x00000000000002a2                _Exit
 
 .text.__dummy_fini
-                0x000000000000021c        0x2
+                0x00000000000002a6        0x2
  .text.__dummy_fini
-                0x000000000000021c        0x2 /Applications/microchip/xc8/v3.10/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega4/libc.a(exit.o)
-                0x000000000000021c                _fini
+                0x00000000000002a6        0x2 /Applications/microchip/xc8/v3.10/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega4/libc.a(exit.o)
+                0x00000000000002a6                _fini
 
 .text.__dummy_funcs_on_exit
-                0x000000000000021e        0x2
+                0x00000000000002a8        0x2
  .text.__dummy_funcs_on_exit
-                0x000000000000021e        0x2 /Applications/microchip/xc8/v3.10/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega4/libc.a(exit.o)
-                0x000000000000021e                __funcs_on_exit
+                0x00000000000002a8        0x2 /Applications/microchip/xc8/v3.10/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega4/libc.a(exit.o)
+                0x00000000000002a8                __funcs_on_exit
 
 .text.__dummy_simulator_exit
-                0x0000000000000220        0x2
+                0x00000000000002aa        0x2
  .text.__dummy_simulator_exit
-                0x0000000000000220        0x2 /Applications/microchip/xc8/v3.10/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega4/libc.a(exit.o)
-                0x0000000000000220                __simulator_exit
+                0x00000000000002aa        0x2 /Applications/microchip/xc8/v3.10/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega4/libc.a(exit.o)
+                0x00000000000002aa                __simulator_exit

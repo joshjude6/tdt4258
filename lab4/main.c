@@ -9,6 +9,8 @@
 #include "ac.h"
 #include "polling.h"
 #include <avr/io.h>
+#include <avr/sleep.h>
+#include <avr/interrupt.h>
 #include <stdbool.h>
 #include "led.h"
 
@@ -28,7 +30,7 @@ void busy_waiting(){
     }
 }
 
-// Timer overflow ISR - triggers every 10ms
+// ISR for polling task
 ISR(TCA0_OVF_vect)
 {
     if(AC_above_threshold()){
@@ -41,10 +43,43 @@ ISR(TCA0_OVF_vect)
     TCA0.SINGLE.INTFLAGS = TCA_SINGLE_OVF_bm;
 }
 
+// ISR for interrupt task
+ISR(AC0_AC_vect)
+{
+    // Check if signal is above or below threshold and control LED
+    if(AC_above_threshold()){
+        set_LED_off();  // Bright light - LED off
+    } else {
+        set_LED_on();   // Dark - LED on
+    }
+    
+    // Clear interrupt flag
+    AC0.STATUS = AC_CMPIF_bm;
+}
+
+// Task 4: Interrupt-driven
+void interrupt_driven() {
+   
+    VREF_init();
+    AC_init();  
+    LED_init();
+    
+    // setting sleep mode to standby
+    set_sleep_mode(SLEEP_MODE_STANDBY);
+    
+    // enabling interrupts
+    sei();
+    
+    while(1) {
+        sleep_mode();  // sleep until interrupt
+    }
+}
+
 int main(){
 
-    busy_waiting();
+    // busy_waiting();
     // polling();
+    interrupt_driven();  
     return 0;
 
 }
