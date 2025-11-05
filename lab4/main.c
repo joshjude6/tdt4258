@@ -9,8 +9,8 @@
 #include "ac.h"
 #include "polling.h"
 #include <avr/io.h>
+#include <stdbool.h>
 #include "led.h"
-
 
 // Task 1: Busy waiting
 void busy_waiting(){
@@ -43,9 +43,8 @@ ISR(TCA0_OVF_vect)
 
 int main(){
 
-    // busy_waiting();
-    // Uncomment the line below to use polling instead:
-    polling();
+    busy_waiting();
+    // polling();
     return 0;
 
 }
