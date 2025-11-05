@@ -16,7 +16,10 @@ foreach(source_file ${lab4_code_default_default_XC8_FILE_TYPE_assemblePreprocess
 endforeach()
 
 set(lab4_code_default_default_XC8_FILE_TYPE_compile
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../ac.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../led.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../../main.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../polling.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../../usart.c")
 set_source_files_properties(${lab4_code_default_default_XC8_FILE_TYPE_compile} PROPERTIES LANGUAGE C)
 set(lab4_code_default_default_XC8_FILE_TYPE_link)
